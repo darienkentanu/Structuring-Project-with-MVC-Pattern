@@ -13,8 +13,24 @@ type M map[string]interface{}
 
 var DB = model.DB
 
+type UserModel interface {
+	GetAll() ([]model.User, error)
+	Add(p model.User) (model.User, error)
+	GetOne(id int) (model.User, error)
+	EditOne(id int) (model.User, error)
+	DeleteOne(id int) ([]model.User, error)
+}
+
+type UserController struct {
+	model UserModel
+}
+
+func NewUserController(m UserModel) UserController {
+	return UserController{model: m}
+}
+
 // get all users
-func GetUsersController(c echo.Context) error {
+func (uc UserController) GetAll(c echo.Context) error {
 	var users []model.User
 	if err := DB.Find(&users).Error; err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
@@ -24,7 +40,7 @@ func GetUsersController(c echo.Context) error {
 }
 
 // get user by id
-func GetUserController(c echo.Context) error {
+func (uc UserController) GetOne(c echo.Context) error {
 	// your solution here
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -41,7 +57,7 @@ func GetUserController(c echo.Context) error {
 }
 
 // create new user
-func CreateUserController(c echo.Context) error {
+func (uc UserController) Add(c echo.Context) error {
 	user := model.User{}
 	if err := c.Bind(&user); err != nil {
 		return c.String(http.StatusInternalServerError, "internal server error")
@@ -56,7 +72,7 @@ func CreateUserController(c echo.Context) error {
 }
 
 // delete user by id
-func DeleteUserController(c echo.Context) error {
+func (uc UserController) DeleteOne(c echo.Context) error {
 	// your solution here
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -75,7 +91,7 @@ func DeleteUserController(c echo.Context) error {
 	return c.JSON(http.StatusOK, user)
 }
 
-func UpdateUserController(c echo.Context) error {
+func (uc UserController) EditOne(c echo.Context) error {
 	// your solution here
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
