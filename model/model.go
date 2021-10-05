@@ -53,23 +53,22 @@ func NewUserModel() *UserModel {
 	return &UserModel{data: []User{}}
 }
 
-func (um *UserModel) GetAll() ([]User, error) {
-	return um.data, nil
+func (um *UserModel) GetAll() error {
+	return nil
 }
 
-func (um *UserModel) Add(p User) (User, error) {
-	um.data = append(um.data, p)
-	return p, nil
+func (um *UserModel) Add() error {
+	return nil
 }
 
-func (um *UserModel) GetOne(id int) (User, error) {
-	return um.data[id-1], nil
+func (um *UserModel) GetOne(id int) error {
+	return nil
 }
 
-func (um *UserModel) EditOne(id int) (User, error) {
-	return um.data[id-1], nil
+func (um *UserModel) EditOne(id int) error {
+	return nil
 }
 
-func (um *UserModel) DeleteOne(id int) ([]User, error) {
-	return um.data, nil
+func (um *UserModel) DeleteOne(id int) error {
+	return nil
 }
