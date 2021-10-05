@@ -14,11 +14,11 @@ type M map[string]interface{}
 var DB = model.DB
 
 type UserModel interface {
-	GetAll() ([]model.User, error)
-	Add(p model.User) (model.User, error)
-	GetOne(id int) (model.User, error)
-	EditOne(id int) (model.User, error)
-	DeleteOne(id int) ([]model.User, error)
+	GetAll() error
+	Add() error
+	GetOne(id int) error
+	EditOne(id int) error
+	DeleteOne(id int) error
 }
 
 type UserController struct {
